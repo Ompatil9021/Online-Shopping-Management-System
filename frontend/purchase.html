@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Place Your Order</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .purchase-container {
+      width: 500px;
+      margin: 50px auto;
+      padding: 30px;
+      background: #f9f9f9;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .purchase-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .purchase-container input,
+    .purchase-container select {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    .purchase-container button {
+      width: 100%;
+      padding: 12px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+    #orderMsg {
+      text-align: center;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="purchase-container">
+    <h2>Checkout</h2>
+    <form id="purchaseForm">
+      <input type="text" id="name" placeholder="Full Name" required />
+      <input type="email" id="email" placeholder="Email Address" required />
+      <input type="text" id="address" placeholder="Shipping Address" required />
+      <input type="text" id="phone" placeholder="Phone Number" required />
+      <select id="paymentMethod" required>
+        <option value="">Select Payment Method</option>
+        <option value="UPI">UPI</option>
+        <option value="Card">Card</option>
+        <option value="Cash on Delivery">Cash on Delivery</option>
+      </select>
+      <button type="submit">Place Order</button>
+    </form>
+    <div id="orderMsg"></div>
+  </div>
+
+  <script>
+    document.getElementById('purchaseForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const address = document.getElementById('address').value;
+      const phone = document.getElementById('phone').value;
+      const paymentMethod = document.getElementById('paymentMethod').value;
+
+      const cartItemsRaw = JSON.parse(localStorage.getItem('cart')) || [];
+
+      // Convert raw cart to structured array for server
+      const cartItems = cartItemsRaw.map(item => ({
+        productId: item.id || item.productId,  // adjust key name as per your cart format
+        name: item.name,
+        quantity: item.quantity || 1,
+        price: item.price
+      }));
+
+      // TODO: Replace with real user ID once login is integrated
+      const userId = 1;
+
+      const purchaseData = {
+        userId,
+        name,
+        address,
+        paymentMethod,
+        cartItems
+      };
+
+      try {
+        const res = await fetch('http://localhost:3000/api/purchase', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(purchaseData)
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          document.getElementById('orderMsg').innerHTML = `
+            <h3>✅ Order Placed!</h3>
+            <p>Your items will arrive in 3 days.</p>
+            <p>Order ID: <strong>${data.orderId}</strong></p>
+          `;
+          localStorage.removeItem('cart'); // Clear cart after order
+        } else {
+          document.getElementById('orderMsg').innerHTML = `
+            <h3>❌ Order Failed</h3>
+            <p>${data.error}</p>
+          `;
+        }
+      } catch (error) {
+        console.error('❌ Error placing order:', error);
+        document.getElementById('orderMsg').innerHTML = `
+          <h3>❌ Network Error</h3>
+          <p>Could not reach server. Please try again later.</p>
+        `;
+      }
+    });
+  </script>
+</body>
+</html>

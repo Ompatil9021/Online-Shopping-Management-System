@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up - Online Shop</title>
+    <style>
+        body.auth-page { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(to right, #d4fc79, #96e6a1); display: flex; align-items: center; justify-content: center; height: 100vh; }
+        .auth-container { display: flex; background-color: white; border-radius: 20px; overflow: hidden; box-shadow: 0 0 30px rgba(0, 0, 0, 0.2); width: 900px; max-width: 100%; }
+        .auth-left { flex: 1; background: linear-gradient(to top left, #b2fefa, #0ed2f7); display: flex; align-items: center; justify-content: center; }
+        .auth-left img { width: 100%; height: auto; }
+        .auth-right { flex: 1; padding: 40px; display: flex; flex-direction: column; justify-content: center; }
+        .auth-logo { max-width: 120px; margin-bottom: 20px; }
+        .auth-title { font-size: 28px; font-weight: bold; margin-bottom: 10px; }
+        .auth-subtitle { font-size: 14px; color: #555; margin-bottom: 30px; }
+        .auth-input { width: 100%; padding: 12px 16px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 10px; font-size: 16px; }
+        .auth-button { background-color: #22c55e; color: white; padding: 12px; border: none; border-radius: 10px; font-size: 16px; cursor: pointer; transition: background-color 0.3s; }
+        .auth-button:hover { background-color: #16a34a; }
+        .auth-footer { margin-top: 20px; font-size: 14px; text-align: center; }
+        .auth-footer a { color: #1e3a8a; text-decoration: none; font-weight: 500; }
+    </style>
+</head>
+<body class="auth-page">
+    <div class="auth-container">
+        <div class="auth-left">
+            <img src="images/Login_Illustration.png" alt="Illustration" />
+        </div>
+        <div class="auth-right">
+            <img src="images/1.png.png" alt="Logo" class="auth-logo" />
+            <div class="auth-title">Create a New Account</div>
+            <div class="auth-subtitle">Join Online Shop Today</div>
+            <form id="signup-form"> <input class="auth-input" type="text" id="signup-username" placeholder="Full Name" required /> <input class="auth-input" type="email" id="signup-email" placeholder="Email Address" required /> <input class="auth-input" type="password" id="signup-password" placeholder="Password" required /> <input class="auth-input" type="password" id="signup-confirm-password" placeholder="Confirm Password" required /> <button class="auth-button" type="submit">Sign Up</button>
+            </form>
+            <div class="auth-footer">Already have an account? <a href="login.html">Log in</a></div>
+        </div>
+    </div>
+    <script src="js/script.js"></script> </body>
+</html>
